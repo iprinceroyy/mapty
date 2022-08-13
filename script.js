@@ -11,6 +11,7 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class Workout {
     date = new Date();
     id = (Date.now() + '').slice(-10);
+    clicks = 0;
 
     constructor(coords, distance, duration) {
         this.coords = coords; // [lat, lng]
@@ -24,6 +25,10 @@ class Workout {
         this.description = `${
       this.type[0].toUpperCase() + this.type.substring(1)
     } on ${months[this.date.getMonth()]} ${this.date.getDate()}`;
+    }
+
+    click() {
+        this.clicks++;
     }
 }
 
@@ -66,6 +71,7 @@ class Cycling extends Workout {
 // Application Architecture
 class App {
     _map;
+    _mapZoomLevel = 13;
     _mapEvent;
     _workouts = [];
 
@@ -73,6 +79,7 @@ class App {
         this._getPosition();
         form.addEventListener('submit', this._newWorkout.bind(this));
         inputType.addEventListener('change', this._toggleElevationField);
+        containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
     }
 
     _getPosition() {
@@ -89,7 +96,7 @@ class App {
 
         const coords = [latitude, longitude];
 
-        this._map = L.map('map').setView(coords, 13);
+        this._map = L.map('map').setView(coords, this._mapZoomLevel);
 
         L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -242,6 +249,26 @@ class App {
             </li>`;
 
         form.insertAdjacentHTML('afterend', html);
+    }
+
+    _moveToPopup(e) {
+        const workoutEl = e.target.closest('.workout');
+        if (!workoutEl) return;
+
+        const workout = this._workouts.find(
+            work => work.id === workoutEl.dataset.id.replace('s', '')
+        );
+
+        console.log(workout);
+        this._map.setView(workout.coords, this._mapZoomLevel, {
+            animate: true,
+            pan: {
+                duration: 1,
+            },
+        });
+
+        // using the public interface
+        workout.click();
     }
 }
 
