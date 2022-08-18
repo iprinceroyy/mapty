@@ -12,11 +12,11 @@
 ## Overview
 
 ### Features
-    - Render form on user click on a particular area of the map.
-    - Render marker on map & on list on submitting activities.
-    - Show minimal list of activities.
-    - Zoom map to the specified place on clicking the list.
-    - Load app with previous list & marker on next visit.
+  - Render form on user click on a particular area of the map.
+  - Render marker on map & on list on submitting activities.
+  - Show minimal list of activities.
+  - Zoom map to the specified place on clicking the list.
+  - Load app with previous list & marker on next visit.
   
  ### Screenshot
  
