@@ -34,3 +34,6 @@
  -  CSS Grid
  -  Mobile first-workflow
  -  Javascript Oop
+ 
+ ## Author
+ -  Twitter- [@prince_popups](https://www.twitter.com/@prince_popups)
